@@ -1,14 +1,14 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from pizza import views
+from order import views
 
 # DefaultRouter is from DjangoRest that generates the urls for our view
 router = DefaultRouter()
-router.register('pizzas', views.PizzaViewSet)
-router.register('ingredients', views.IngredientViewSet)
+router.register('orders', views.OrderViewSet)
+#router.register('payments', views.PaymentViewSet)
 
-app_name = 'pizza'
+app_name = 'order'
 
 urlpatterns = [
     path('', include(router.urls))

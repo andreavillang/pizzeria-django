@@ -41,7 +41,7 @@ class Pizza(models.Model):
     """
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    #ingredients = models.ManyToManyField('Ingredient')
+    ingredients = models.ManyToManyField('Ingredient')
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -50,16 +50,41 @@ class Pizza(models.Model):
     def __str__(self):
         return self.name
 
-# class Ingredient(models.Model):
-#     """
-#     Ingredients to be put on the pizzAAAAAAAAAAAA
-#     """
-#     name = models.CharField(max_length=255)
-#     #quantity = models.IntegerField(max_length=5)
-#     user = models.ForeignKey(
-#         settings.AUTH_USER_MODEL,
-#         on_delete=models.CASCADE,
-#     )
+class Ingredient(models.Model):
+    """
+    Ingredients to be put on the pizzAAAAAAAAAAAA
+    """
+    name = models.CharField(max_length=255)
+    #quantity = models.IntegerField(max_length=5)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
+
+class Order(models.Model):
+    """
+    Orders taken by the waiter
+    """
+    date = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    pizza = models.ForeignKey(
+        'Pizza',
+        on_delete=models.CASCADE,
+    )
+    quantity = models.IntegerField()
+
+    # payment = models.ForeignKey(
+    #    'Payment',
+    #    on_delete=models.CASCADE,
+    # )
+    is_paid = models.BooleanField(default=False)
+
+class Payment(models.Model):
+    """
+    Payment for the order
+    """
+    payment_method = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=5, decimal_places=2)
